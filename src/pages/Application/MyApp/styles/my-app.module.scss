@@ -1,0 +1,16 @@
+.title {
+	margin: 20px 0 0 0;
+	font-size: 24px;
+	line-height: 32px;
+  font-style: normal;
+  font-weight: bold;
+  text-align: left;
+	color: var(--main-black-color);
+}
+.header {
+	margin: 20px 0;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}

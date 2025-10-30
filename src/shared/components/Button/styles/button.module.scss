@@ -1,19 +1,22 @@
 .button {
-  margin: 0px;
+  margin: 0;
+	width: max-content;
+	height: 38px;
   position: relative;
-  padding: 10px 16px;
-	border: 2px solid var(--main-black-color);
+  padding: 0 16px;
 	box-sizing: border-box;
   border: none;
   border-radius: var(--border-radius);
-	background: inherit;
-	color: var(--main-black-color);
 	outline: none;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
   line-height: 1;
-	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	flex-shrink: 0;
   text-decoration: none;
   transition: all .3s ease-in-out;
 	&:hover {
@@ -22,58 +25,132 @@
 		pointer-events: all;
 		opacity: .8;
 	}
+	&_width_default {
+		width: max-content;
+	}
 	&_width_full {
 		width: 100%;
 	}
 	&_width_auto {
 		width: auto;
 	}
-	&_width_default {
-		max-width: 216px;
-		width: 100%;
-		flex-shrink: 0;
+	&_color_default {
+		color: var(--main-black-color);
+		background: var(--main-grey-background-color);
+		border: 1px solid var(--main-grey-background-color);
 	}
-	&_style_default {
-		color: var(--main-white-color);
-		background: var(--main-blue-color);
-		border: 2px solid var(--main-blue-color);
-		&:hover {
-			box-shadow: 0px 8px 12px -8px rgba(0, 55, 196, 0.9);
-		}
-	}
-	&_style_magic {
-		color: var(--main-white-color);
-		background:
-    radial-gradient(circle at 50% -80%, #3C7AFF 30%, transparent 80%),
-    radial-gradient(circle at 50% 80%, #8647FF 30%, transparent 80%),
-    #4F15F3;
-		border: none;
-		padding: 12px 11px;
-		box-shadow: 0px 5px 6px 0px rgba(0, 0, 0, 0.12);
-	}
-	&_style_light {
-		color: var(--main-white-color);
-		background: var(--main-blue-light-color);
-		border: 2px solid var(--main-blue-light-color);
-	}
-	&_style_cancel {
+	&_color_cancel {
 		color: var(--main-black-color);
 		background: var(--main-white-color);
-		border: 2px solid var(--main-grey-light-color);
+		border: 1px solid var(--main-grey-background-color);
+		box-shadow: 0px 2px 10px -5px rgba(165, 165, 165, 0.5);
 	}
-	&_style_delete {
+	&_color_blue {
+		color: var(--main-white-color);
+		background: var(--main-blue-color);
+		border: 1px solid var(--main-blue-color);
+	}
+	&_color_white {
+		color: var(--main-blue-color);
+		background: var(--main-white-color);
+		border: 1px solid var(--main-white-color);
+	}
+	&_color_confirm {
+		color: var(--main-white-color);
+		background: var(--accent-green-color);
+		border: 1px solid var(--accent-green-color);
+	}
+	&_color_green {
+		color: var(--main-white-color);
+		background: var(--accent-green-color);
+		border: 1px solid var(--accent-green-color);
+	}
+	&_color_red {
 		color: var(--main-white-color);
 		background: var(--accent-red-color);
-		border: 2px solid var(--accent-red-color);
+		border: 1px solid var(--accent-red-color);
 	}
 	&_block {
-		color: var(--main-grey-light-color);
+		color: var(--main-grey-color);
 		background: var(--inactive-color);
-		border: 2px solid var(--inactive-color);
+		border: 1px solid var(--inactive-color);
 		cursor: default;
 		&:hover {
 			cursor: default;
 			opacity: 1;
 		}
+	}
+}
+
+.icon {
+	margin: 0;
+	width: 16px;
+	height: 16px;
+	flex-shrink: 0;
+	&_add_white {
+		background-image: url('../../../../shared/images/icons/buttons/add-white.svg');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+	&_add_blue {
+		background-image: url('../../../../shared/images/icons/buttons/add-blue.svg');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+	&_next_white {
+		background-image: url('../../../../shared/images/icons/buttons/next-white.svg');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+	&_prev_black {
+		background-image: url('../../../../shared/images/icons/buttons/prev-black.svg');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+	&_send_white {
+		background-image: url('../../../../shared/images/icons/buttons/send-white.svg');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+	&_send_black {
+		background-image: url('../../../../shared/images/icons/buttons/send-black.svg');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+	&_send_grey {
+		background-image: url('../../../../shared/images/icons/buttons/send-grey.svg');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+	&_back_black {
+		background-image: url('../../../../shared/images/icons/buttons/back-black.svg');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+	&_return_black {
+		background-image: url('../../../../shared/images/icons/buttons/return-black.svg');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+	&_cancel_white {
+		background-image: url('../../../../shared/images/icons/buttons/cancel-white.svg');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+	&_check_white {
+		background-image: url('../../../../shared/images/icons/buttons/check-white.svg');
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: contain;
 	}
 }

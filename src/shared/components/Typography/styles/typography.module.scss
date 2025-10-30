@@ -1,10 +1,21 @@
 .text {
 	margin: 0;
-	color: var(--main-black-color);
 	font-size: 14px;
 	line-height: 18px;
 	font-style: normal;
-	font-weight: 300;
+	font-weight: 500;
+	&_color_grey {
+		color: var(--main-black-color);
+	}
+	&_color_grey {
+		color: var(--main-grey-color);
+	}
+	&_color_white {
+		color: var(--main-white-color);
+	}
+	&_margin_top {
+		margin: 12px 0 0 0;
+	}
 }
 
 .container {

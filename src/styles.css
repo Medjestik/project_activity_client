@@ -4,26 +4,28 @@
 :root {
 	--background-color: #f1f3f5;
 	--main-white-color: #ffffff;
-	--main-black-color: #292D32;
-	--main-blue-color: #4D61C7;
+	--main-black-color: #333333;
+	--main-blue-color: #0575E6;
 	--main-blue-light-color: #5F77F0;
+	--main-blue-background-color: #DBEAFE;
 	--main-blue-dark-color: #3A4B9E;
-	--main-grey-color: #797E8B;
-	--main-grey-light-color: #B5B7C0;
+	--main-grey-color: #A5A5A5;
+	--main-grey-light-color: #EEEEEE;
+	--main-grey-background-color: #E2E8F0;
 	--main-grey-dark-color: #585D69;
-	--accent-blue-color: #4C87FF;
-	--accent-green-color: #3AD57B;
-	--accent-red-color: #FF5151;
+	--accent-green-color: #38A169;
+	--background-green-color: #F0FFF4;
+	--accent-red-color: #E53E3E;
+	--background-red-color: #FFF5F5;
+	--accent-yellow-color: #DD6B20;
+	--background-yellow-color: #FFFAF0;
 	--accent-grey-color: #797E8B;
 	--accent-blue-light-color: #D5E1FF;
 	--accent-green-light-color: #DAF5DF;
 	--accent-red-light-color: #FFD7D6;
-	--wizard-first-color: #1549F3;
-	--wizard-second-color: #4F15F3;
-	--wizard-third-color: #8647FF;
 	--slider-color: #d9d9d9;
 	--inactive-color: #F6F6F7;
-	--border-radius: 16px;
+	--border-radius: 12px;
 	color: var(--main-black-color);
 	font-weight: normal;
 	font-size: 16px;
@@ -39,17 +41,3 @@
 	background-color: var(--background-color);
 }
 
-::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
-}
-
-::-webkit-scrollbar-track {
-  border-radius: var(--border-radius);
-  background: var(--slider-color);
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: var(--border-radius);
-  background: var(--main-grey-light-color);
-}

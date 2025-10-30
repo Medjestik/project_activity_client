@@ -14,6 +14,9 @@ import { NotFound } from '../pages/NotFound/ui/not-found';
 import { Home } from '../pages/Home/ui/home';
 import { NewApp } from '../pages/Application/NewApp/ui/new-app';
 import { MyApp } from '../pages/Application/MyApp/ui/my-app';
+import { Coordination } from '../pages/Coordination/ui/coordination';
+import { Stats } from '../pages/Stats/ui/stats';
+import { Control } from '../pages/Control/ui/control';
 
 import { EPAGESROUTES, EMAINROUTES } from '../shared/utils/routes';
 import { checkUserAuth } from '../store/user/actions';
@@ -40,6 +43,12 @@ export const App = () => {
 					<Route path={EMAINROUTES.HOME} element={<Home />} />
 					<Route path={EMAINROUTES.NEW_APP} element={<NewApp />} />
 					<Route path={EMAINROUTES.MY_APPS} element={<MyApp />} />
+					<Route
+						path={`${EMAINROUTES.COORDINATION}/*`}
+						element={<Coordination />}
+					/>
+					<Route path={EMAINROUTES.STATS} element={<Stats />} />
+					<Route path={`${EMAINROUTES.CONTROL}/*`} element={<Control />} />
 					<Route path='*' element={<NotFound />} />
 				</Route>
 

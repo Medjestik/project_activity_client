@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { currentYear } from '../../../../lib/getCurrentYear';
+import { currentYear } from '../../../../lib/date';
 
 import styles from '../styles/public-layout.module.scss';
 

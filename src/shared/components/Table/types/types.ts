@@ -16,3 +16,8 @@ export interface ITableControlProps {
 	size?: number;
 	children?: ReactNode;
 }
+
+export interface ITableTextProps {
+	text: string;
+	type?: 'default' | 'empty';
+}

@@ -1,14 +1,16 @@
 .badge {
   margin: 0;
   width: fit-content;
-  padding: 4px 12px;
+	max-height: 24px;
+  padding: 5px 10px;
   position: relative;
   box-sizing: border-box;
   font-style: normal;
 	font-weight: 500;
-	font-size: 12px;
-	line-height: 12px;
-	color: var(--main-black-color);
+	font-size: 14px;
+	line-height: 14px;
+	color: var(--main-blue-color);
+	background-color: var(--main-blue-background-color);
   border-radius: var(--border-radius);
   flex-shrink: 0;
 	outline: none;
@@ -23,13 +25,24 @@
 		}
 	}
 	&_color_blue {
-		background-color: var(--main-blue-color);
-		color: var(--main-white-color);
-		box-shadow: 0px 8px 12px -8px rgba(93, 90, 196, 0.9);
+		color: var(--main-blue-color);
+		background-color: var(--main-blue-background-color);
 	}
 	&_color_white {
+		color: var(--main-black-color);
 		background-color: var(--main-white-color);
-		color: var(--main-blue-color);
+	}
+	&_color_yellow {
+		color: var(--accent-yellow-color);
+		background-color: var(--background-yellow-color);
+	}
+	&_color_green {
+		color: var(--accent-green-color);
+		background-color: var(--background-green-color);
+	}
+	&_color_red {
+		color: var(--accent-red-color);
+		background-color: var(--background-red-color);
 	}
 }
 

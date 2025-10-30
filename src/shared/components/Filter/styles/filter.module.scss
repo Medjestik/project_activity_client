@@ -4,7 +4,7 @@
 	max-width: 334px;
   padding: 9px 16px 9px 16px;
 	box-sizing: border-box;
-  border: 2px solid var(--main-grey-light-color);
+  border: 1px solid var(--main-grey-light-color);
   border-radius: var(--border-radius);
   background: var(--main-white-color);
   font-style: normal;
@@ -15,20 +15,20 @@
 	outline: none;
   transition: all .3s ease-in-out;
 	&:hover {
-		border: 2px solid var(--main-grey-color);
+		border: 1px solid var(--main-grey-color);
 	}
 	&:active {
-		border: 2px solid var(--main-blue-color);
+		border: 1px solid var(--main-blue-color);
 	}
 	&:focus {
-		border: 2px solid var(--main-blue-color);
+		border: 1px solid var(--main-blue-color);
 	}
 	&::placeholder {
 		font-style: normal;
 		font-weight: normal;
 		font-size: 14px;
 		line-height: 18px;
-		color: var(--main-grey-light-color);
+		color: var(--main-grey-color);
 	}
 	&::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {

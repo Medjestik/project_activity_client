@@ -29,15 +29,25 @@ export const applicationSlice = createSlice({
 				state.isLoading = false;
 				state.error = action.error?.message || 'Не удалось загрузить заявки';
 			})
-			.addCase(actions.newAppAction.pending, (state) => {
+			.addCase(actions.createAppMainAction.pending, (state) => {
 				state.isLoading = true;
 				state.error = null;
 			})
-			.addCase(actions.newAppAction.fulfilled, (state, action) => {
+			.addCase(actions.createAppMainAction.fulfilled, (state) => {
 				state.isLoading = false;
-				state.applications = [...state.applications, action.payload];
 			})
-			.addCase(actions.newAppAction.rejected, (state, action) => {
+			.addCase(actions.createAppMainAction.rejected, (state, action) => {
+				state.isLoading = false;
+				state.error = action.error?.message || 'Произошла ошибка';
+			})
+			.addCase(actions.createAppPublicAction.pending, (state) => {
+				state.isLoading = true;
+				state.error = null;
+			})
+			.addCase(actions.createAppPublicAction.fulfilled, (state) => {
+				state.isLoading = false;
+			})
+			.addCase(actions.createAppPublicAction.rejected, (state, action) => {
 				state.isLoading = false;
 				state.error = action.error?.message || 'Произошла ошибка';
 			});

@@ -2,6 +2,8 @@ import type { ReactNode } from 'react';
 
 export interface ITextProps {
 	text: string;
+	color?: 'black' | 'grey' | 'white';
+	withMarginTop?: boolean;
 }
 
 export interface IContainerProps {

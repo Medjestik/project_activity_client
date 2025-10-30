@@ -4,12 +4,12 @@ export interface ILoginRequest {
 }
 
 export interface IRegistrationRequest {
-	email: string;
 	first_name: string;
 	last_name: string;
 	middle_name: string;
-	password1: string;
-	password2: string;
+	email: string;
+	phone: string;
+	comment: string;
 }
 
 export interface IAuthResponse {
@@ -19,12 +19,18 @@ export interface IAuthResponse {
 }
 
 export interface IUser {
+	id: number;
 	email: string;
 	first_name: string;
 	last_name: string;
 	middle_name: string;
-	id: number;
 	role: string;
+	phone: string;
+	department: {
+		id: number;
+		name: string;
+		short_name: string;
+	};
 }
 
 export interface IUserStore {

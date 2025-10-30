@@ -5,10 +5,13 @@ import { useOnClickOutside } from '../../../../hooks/useOnClickOutside';
 
 import styles from '../styles/select.module.scss';
 
-export const Select = <T extends { id: string | number; name: string }>({
+export const Select = <T,>({
 	options,
 	currentOption,
 	onChooseOption,
+	valueKey = 'id' as keyof T,
+	labelKey = 'name' as keyof T,
+	placeholder = 'Выберите значение...',
 }: ISelectProps<T>) => {
 	const [isOpenSelectOptions, setIsOpenSelectOptions] = useState(false);
 	const selectRef = useRef<HTMLDivElement>(null);
@@ -32,6 +35,9 @@ export const Select = <T extends { id: string | number; name: string }>({
 		setIsOpenSelectOptions(false);
 	}, []);
 
+	const getValue = (item: T) => String(item[valueKey]);
+	const getLabel = (item: T) => String(item[labelKey]);
+
 	return (
 		<div
 			ref={selectRef}
@@ -40,11 +46,19 @@ export const Select = <T extends { id: string | number; name: string }>({
 			}`}
 			onClick={openSelectOptions}>
 			<div className={styles.main}>
-				<p className={styles.title}>{currentOption.name || ''}</p>
+				<p
+					className={`${styles.title} ${
+						!currentOption || getValue(currentOption) === '0'
+							? styles.text_empty
+							: ''
+					}`}>
+					{currentOption ? getLabel(currentOption) : placeholder}
+				</p>
 				<div
 					className={`${styles.arrow} ${
 						isOpenSelectOptions ? styles.arrow_status_open : ''
-					}`}></div>
+					}`}
+				/>
 			</div>
 			<div
 				className={`${styles.options} ${
@@ -53,13 +67,16 @@ export const Select = <T extends { id: string | number; name: string }>({
 				<ul className={styles.list}>
 					{options.length > 0 ? (
 						options
-							.filter((item) => item.id !== currentOption.id)
-							.map((item, i) => (
+							.filter(
+								(item) =>
+									getValue(item) !== getValue(currentOption ?? ({} as T))
+							)
+							.map((item) => (
 								<li
 									className={styles.item}
-									key={i}
+									key={getValue(item)}
 									onClick={() => chooseOption(item)}>
-									<p className={styles.text}>{item.name}</p>
+									<p className={styles.text}>{getLabel(item)}</p>
 								</li>
 							))
 					) : (

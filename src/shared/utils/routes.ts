@@ -11,4 +11,7 @@ export enum EMAINROUTES {
 	HOME = 'home',
 	NEW_APP = 'new-application',
 	MY_APPS = 'my-applications',
+	COORDINATION = 'coordination',
+	STATS = 'stats',
+	CONTROL = 'control',
 }

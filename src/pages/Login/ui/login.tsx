@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from '../../../store/store';
 import { useForm } from '../../../hooks/useForm';
 
 import { PublicLayout } from '../../../shared/components/Layout/PublicLayout/ui/public-layout';
-import { Section } from '../../../shared/components/Section/ui/section';
 import { Form } from '../../../shared/components/Form/ui/form';
 import {
 	FormField,
@@ -38,10 +37,6 @@ export const Login: FC = () => {
 		}
 	};
 
-	const handleClick = () => {
-		console.log('click');
-	};
-
 	useEffect(() => {
 		setIsBlockSubmit(shouldBlockSubmit(values, errors));
 	}, [values, errors]);
@@ -49,47 +44,45 @@ export const Login: FC = () => {
 	return (
 		<PublicLayout>
 			<main className={styles.container}>
-				<Section>
-					<Form
-						name='form-login'
-						onSubmit={handleSubmit}
-						title='Вход в личный кабинет'
-						titleAlign='center'>
-						<FormField
-							title='Электронная почта:'
-							fieldError={{ text: errors.email || '', isShow: !!errors.email }}>
-							<FormInput
-								name='email'
-								value={values.email}
-								onChange={handleChange}
-							/>
-						</FormField>
-						<FormField
-							title='Пароль:'
-							fieldError={{
-								text: errors.password || '',
-								isShow: !!errors.password,
-							}}>
-							<FormInput
-								name='password'
-								value={values.password}
-								onChange={handleChange}
-							/>
-						</FormField>
-						<FormButtons>
-							<Button
-								text='Забыли пароль?'
-								style='cancel'
-								width='full'
-								onClick={handleClick}></Button>
-							<Button
-								type='submit'
-								text='Вход'
-								width='full'
-								isBlock={isBlockSubmit || isLoading}></Button>
-						</FormButtons>
-					</Form>
-				</Section>
+				<Form
+					name='form-login'
+					onSubmit={handleSubmit}
+					title='С возвращением!'
+					subtitle='Войдите в свой аккаунт, чтобы продолжить работу над проектами'
+					titleAlign='left'>
+					<FormField
+						title='Электронная почта'
+						fieldError={{ text: errors.email || '', isShow: !!errors.email }}>
+						<FormInput
+							name='email'
+							placeholder='Ваша электронная почта'
+							value={values.email}
+							onChange={handleChange}
+						/>
+					</FormField>
+					<FormField
+						title='Пароль'
+						fieldError={{
+							text: errors.password || '',
+							isShow: !!errors.password,
+						}}>
+						<FormInput
+							name='password'
+							placeholder='Ваш пароль'
+							value={values.password}
+							onChange={handleChange}
+						/>
+					</FormField>
+					<FormButtons>
+						<Button
+							type='submit'
+							text='Войти'
+							width='full'
+							color='blue'
+							isBlock={isBlockSubmit || isLoading}
+						/>
+					</FormButtons>
+				</Form>
 				<FormLinks links={links} />
 			</main>
 		</PublicLayout>

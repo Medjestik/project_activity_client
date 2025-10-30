@@ -1,11 +1,15 @@
 .container {
-  margin: 12px 0 0 0;
+  margin: 4px 0 0 0;
   width: 100%;
   padding: 0 0 16px 0;
   box-sizing: border-box;
   position: relative;
   display: flex;
   flex-direction: column;
+}
+
+.container_margin_bottom {
+	margin-bottom: 60px;
 }
 
 .header {
@@ -17,10 +21,10 @@
 .title {
 	margin: 0 8px 0 0;
 	color: var(--main-black-color);
-	font-size: 16px;
+	font-size: 14px;
 	font-style: normal;
-	font-weight: bold;
-	line-height: 20px;
+	font-weight: 500;
+	line-height: 18px;
 }
 
 .icon {

@@ -2,8 +2,10 @@ import type { ReactNode, FormEventHandler, ChangeEvent } from 'react';
 
 export interface IFormProps {
 	title?: string;
+	subtitle?: string;
 	titleAlign?: 'center' | 'left';
 	formWidth?: 'full' | 'large' | 'default' | 'small';
+	withHeightStretch?: boolean;
 	name: string;
 	onSubmit?: FormEventHandler<HTMLFormElement>;
 	children?: ReactNode;
@@ -12,6 +14,7 @@ export interface IFormProps {
 export interface IFormFieldProps {
 	title?: string;
 	withInfo?: boolean;
+	withMarginBottom?: boolean;
 	onInfo?: () => void;
 	fieldError?: IFormFieldError;
 	children?: ReactNode;

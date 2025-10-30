@@ -1,9 +1,11 @@
 export interface ITab {
 	label: string;
-	content: React.ReactNode;
+	path: string;
 	disabled?: boolean;
 }
 
 export interface ITabsProps {
 	tabs: ITab[];
+	activeTab?: string;
+	onTabChange?: (path: string) => void;
 }

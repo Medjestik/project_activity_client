@@ -1,7 +1,5 @@
 import type { FC } from 'react';
 
-import { Field } from '../../../shared/components/Field/ui/field';
-
 import styles from '../styles/parse-text.module.scss';
 
 interface IParseTextProps {
@@ -32,23 +30,19 @@ export const ParseText: FC<IParseTextProps> = ({ text }) => {
 
 	const { parsedParagraphs } = parseText(text);
 
-	return (
-		<Field>
-			{parsedParagraphs.length > 0 ? (
-				<ul className={styles.list}>
-					{parsedParagraphs.map((paragraph, index) => (
-						<li className={styles.item} key={index}>
-							{paragraph.type === 'title' ? (
-								<h4 className={styles.title}>{paragraph.text}</h4>
-							) : (
-								<p className={styles.text}>{paragraph.text}</p>
-							)}
-						</li>
-					))}
-				</ul>
-			) : (
-				<p className={styles.text}>{text}</p>
-			)}
-		</Field>
+	return parsedParagraphs.length > 0 ? (
+		<ul className={styles.list}>
+			{parsedParagraphs.map((paragraph, index) => (
+				<li className={styles.item} key={index}>
+					{paragraph.type === 'title' ? (
+						<h4 className={styles.title}>{paragraph.text}</h4>
+					) : (
+						<p className={styles.text}>{paragraph.text}</p>
+					)}
+				</li>
+			))}
+		</ul>
+	) : (
+		<p className={styles.text}>{text}</p>
 	);
 };

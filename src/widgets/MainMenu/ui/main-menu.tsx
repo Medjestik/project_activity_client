@@ -7,9 +7,8 @@ import { useDispatch, useSelector } from '../../../store/store';
 import { getUser } from '../../../store/user/reducer';
 import { logoutUser } from '../../../store/user/actions';
 
-import { Avatar } from '../../../shared/components/Avatar/ui/avatar';
-
-import { EPAGESROUTES, EMAINROUTES } from '../../../shared/utils/routes';
+import { EPAGESROUTES } from '../../../shared/utils/routes';
+import { links } from '../lib/helpers';
 
 import styles from '../styles/main-menu.module.scss';
 
@@ -17,53 +16,46 @@ export const MainMenu: FC = () => {
 	const user = useSelector(getUser);
 	const dispatch = useDispatch();
 
-	const links = [
-		{ name: 'Главная', url: EMAINROUTES.HOME, icon: 'home' },
-		{ name: 'Новая заявка', url: EMAINROUTES.NEW_APP, icon: 'app-add' },
-		{ name: 'Мои заявки', url: EMAINROUTES.MY_APPS, icon: 'apps' },
-	];
-
 	const handleLogout = () => {
 		dispatch(logoutUser());
 	};
 
+	const visibleLinks =
+		user?.role === 'admin'
+			? links
+			: user?.role === 'mentor'
+			? links.slice(0, 3)
+			: links.slice(0, 4);
+
 	return (
 		<section className={styles.container}>
-			<Avatar />
-			{user && (
-				<>
-					<p className={styles.name}>
-						{user.last_name} {user.first_name} {user.middle_name}
-					</p>
-					<p className={styles.role}>{user.role}</p>
-				</>
-			)}
+			<div className={styles.header}>
+				<span className={styles.logo}>ПроектРУТ</span>
+			</div>
 			<nav className={styles.nav}>
-				{links.map((elem, i) => (
+				{visibleLinks.map((elem, i) => (
 					<NavLink
 						to={`${EPAGESROUTES.MAIN}/${elem.url}`}
 						key={i}
 						className={({ isActive }) =>
 							`${styles.link} ${isActive ? styles.link_active : ''}`
 						}>
-						<div className={styles.icon__container}>
-							<div
-								className={`${styles.icon} ${
-									styles[`icon_type_${elem.icon}`]
-								}`}></div>
-						</div>
+						<div
+							className={`${styles.icon} ${styles[`icon_type_${elem.icon}`]}`}
+						/>
 						<p className={styles.icon__text}>{elem.name}</p>
 					</NavLink>
 				))}
 			</nav>
-			<button
-				onClick={handleLogout}
-				className={`${styles.link} ${styles.link_type_logout}`}>
-				<div className={styles.icon__container}>
+			<div className={styles.footer}>
+				<button
+					onClick={handleLogout}
+					className={`${styles.link} ${styles.link_type_logout}`}
+					type='button'>
 					<div className={`${styles.icon} ${styles.icon_type_logout}`}></div>
-				</div>
-				<p className={styles.icon__text}>Выход</p>
-			</button>
+					<p className={styles.icon__text}>Выход</p>
+				</button>
+			</div>
 		</section>
 	);
 };

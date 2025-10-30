@@ -1,6 +1,7 @@
 import type { FC } from 'react';
-import type { IApplication } from '../../../../store/application/types';
+import type { IApplicationItem } from '../../../../store/application/types';
 
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from '../../../../store/store';
 
@@ -8,111 +9,81 @@ import { Section } from '../../../../shared/components/Section/ui/section';
 import { Preloader } from '../../../../shared/components/Preloader/ui/preloader';
 import { Filter } from '../../../../shared/components/Filter/ui/filter';
 import { Button } from '../../../../shared/components/Button/ui/button';
-import {
-	Table,
-	TableHeader,
-	TableMain,
-	TableRow,
-	TableMainColumn,
-	TableColumn,
-	TableControl,
-} from '../../../../shared/components/Table/ui';
-import { Icon } from '../../../../shared/components/Icon/ui/icon';
+import { Text } from '../../../../shared/components/Typography';
+import { AppCard } from '../../components/AppCard/ui/app-card';
 
 import { getAppsAction } from '../../../../store/application/actions';
-import { getFullDate } from '../../../../shared/lib/formatDate';
+import { EPAGESROUTES, EMAINROUTES } from '../../../../shared/utils/routes';
 
 import styles from '../styles/my-app.module.scss';
 
 export const MyApp: FC = () => {
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const { applications, isLoading } = useSelector((state) => state.application);
-	const [filteredApps, setFilteredApps] = useState(applications);
+	const [filteredApps, setFilteredApps] = useState<IApplicationItem[]>([]);
+
+	const createNewApp = () => {
+		navigate(`${EPAGESROUTES.MAIN}/${EMAINROUTES.NEW_APP}`, {
+			replace: true,
+		});
+	};
 
 	useEffect(() => {
 		dispatch(getAppsAction());
 	}, [dispatch]);
 
 	useEffect(() => {
-		setFilteredApps(applications);
+		setFilteredApps(
+			[...applications].sort(
+				(a, b) =>
+					new Date(b.creation_date).getTime() -
+					new Date(a.creation_date).getTime()
+			)
+		);
 	}, [applications]);
 
 	return (
-		<Section sectionWidth='full'>
+		<Section
+			sectionWidth='full'
+			sectionTitle={{ text: 'Мои заявки' }}
+			sectionDescription='Следите за статусом и обновляйте ваши заявки'
+			withHeaderMargin>
 			{isLoading ? (
 				<Preloader />
 			) : (
 				<>
-					<h1 className={styles.title}>Мои заявки</h1>
 					<div className={styles.header}>
-						<Filter<IApplication>
+						<Filter<IApplicationItem>
 							data={applications}
 							searchKey='title'
 							placeholder='Поиск по названию...'
 							onFilter={setFilteredApps}
 						/>
-						<Button text='Новая заявка' />
+						<Button
+							text='Новая заявка'
+							color='blue'
+							withIcon={{
+								type: 'add',
+								position: 'left',
+								color: 'white',
+							}}
+							onClick={createNewApp}
+						/>
 					</div>
-					<Table>
-						<TableHeader>
-							<TableColumn
-								text='№'
-								textWeight='bold'
-								columnType='header'
-								columnSize='count'
-							/>
-							<TableColumn
-								text='Название'
-								textWeight='bold'
-								columnType='header'
-								columnSize='full'
-							/>
-							<TableColumn
-								text='Компания'
-								textWeight='bold'
-								columnType='header'
-								columnSize='full'
-							/>
-							<TableColumn
-								text='Дата подачи'
-								textWeight='bold'
-								columnType='header'
-								columnSize='large'
-							/>
-							<TableColumn
-								text='Статус'
-								textWeight='bold'
-								columnType='header'
-								columnSize='large'
-							/>
-						</TableHeader>
-						{filteredApps.length > 0 ? (
-							<TableMain>
-								{filteredApps.map((item, i) => (
-									<TableRow key={item.id}>
-										<TableMainColumn>
-											<TableColumn text={i + 1} columnSize='count' />
-											<TableColumn text={item.title} columnSize='full' />
-											<TableColumn text={item.company} columnSize='full' />
-											<TableColumn
-												text={getFullDate(item.creation_date)}
-												columnSize='large'
-											/>
-											<TableColumn text={item.status.name} columnSize='large' />
-										</TableMainColumn>
-										<TableControl>
-											<Icon icon='view' />
-											<Icon icon='edit' />
-										</TableControl>
-									</TableRow>
-								))}
-							</TableMain>
-						) : (
-							<p className='table__caption_type_empty'>
-								Заявки не найдены. Измените параметры поиска или создайте новую.
-							</p>
-						)}
-					</Table>
+					{filteredApps.length > 0 ? (
+						<ul className={styles.list}>
+							{filteredApps.map((item) => (
+								<AppCard card={item} key={item.id} />
+							))}
+						</ul>
+					) : (
+						<Text
+							text='По заданным параметрам ничего не найдено'
+							color='grey'
+							withMarginTop
+						/>
+					)}
 				</>
 			)}
 		</Section>

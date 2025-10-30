@@ -5,8 +5,7 @@ export interface ISectionProps {
 	sectionHeight?: 'page' | 'card';
 	sectionTitle?: ISectionTitle;
 	sectionDescription?: string;
-	withIcon?: boolean;
-	onIconClick?: () => void;
+	withHeaderMargin?: boolean;
 	children?: ReactNode;
 }
 

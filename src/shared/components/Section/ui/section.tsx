@@ -4,31 +4,23 @@ import type { ISectionProps } from '../types/types';
 import styles from '../styles/section.module.scss';
 
 export const Section: FC<ISectionProps> = ({
-	sectionWidth = 'default',
-	sectionHeight = 'page',
 	sectionTitle,
 	sectionDescription,
-	withIcon = false,
-	onIconClick,
+	withHeaderMargin,
 	children,
 }) => {
 	return (
-		<section
-			className={`
-				${styles.container}
-				${styles[`container_width_${sectionWidth}`]}
-				${styles[`container_height_${sectionHeight}`]}
-			`}>
+		<section className={styles.section}>
 			{sectionTitle && (
-				<div className={styles.header}>
+				<div
+					className={`${styles.header} ${
+						withHeaderMargin ? styles.header_mb_20 : ''
+					}`}>
 					<h2 className={styles.title}>{sectionTitle.text}</h2>
-					{withIcon && (
-						<div className={styles.icon} onClick={onIconClick}></div>
+					{sectionDescription && (
+						<p className={styles.subtitle}>{sectionDescription}</p>
 					)}
 				</div>
-			)}
-			{sectionDescription && (
-				<p className={styles.description}>{sectionDescription}</p>
 			)}
 			{children}
 		</section>

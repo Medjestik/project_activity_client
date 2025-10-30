@@ -1,14 +1,28 @@
-import type { IApplication, INewAppRequest, INewAppResponse } from './types';
+import type {
+	IApplication,
+	IApplicationItem,
+	ICreateAppMain,
+	ICreateAppPublic,
+} from './types';
 
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { newApplication, getApplications } from '../../shared/api/application';
+import {
+	getApplications,
+	createMainApplication,
+	createPublicApplication,
+} from '../../shared/api/application';
 
-export const getAppsAction = createAsyncThunk<IApplication[]>(
+export const getAppsAction = createAsyncThunk<IApplicationItem[]>(
 	'application/getApps',
 	getApplications
 );
 
-export const newAppAction = createAsyncThunk<INewAppResponse, INewAppRequest>(
-	'application/newApp',
-	newApplication
-);
+export const createAppMainAction = createAsyncThunk<
+	IApplication,
+	ICreateAppMain
+>('application/createAppMain', createMainApplication);
+
+export const createAppPublicAction = createAsyncThunk<
+	IApplication,
+	ICreateAppPublic
+>('application/createAppPublic', createPublicApplication);

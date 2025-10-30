@@ -27,7 +27,7 @@ export const login = (data: ILoginRequest) => {
 };
 
 export const registration = (data: IRegistrationRequest) => {
-	return request('/auth/registration/', {
+	return request('/accounts/registration-requests/', {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',

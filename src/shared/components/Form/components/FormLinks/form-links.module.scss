@@ -1,12 +1,12 @@
 .container {
-	margin: 0;
+	margin: 20px 0 0 0;
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
 }
 
 .item {
-	margin: 0;
+	margin: 0 auto;
 	display: flex;
 	align-items: center;
 }
@@ -17,7 +17,7 @@
 	font-style: normal;
 	font-weight: normal;
 	line-height: 18px;
-	color: var(--main-white-color);
+	color: var(--main-grey-color);
 }
 
 .link {
@@ -26,7 +26,7 @@
 	font-style: normal;
 	font-weight: normal;
 	line-height: 18px;
-	color: var(--main-white-color);
+	color: var(--main-blue-color);
 	font-weight: bold;
 	text-align: center;
 	text-decoration: none;

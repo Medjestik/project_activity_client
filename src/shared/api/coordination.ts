@@ -4,7 +4,7 @@ import type { ICreateCommentAction } from '../../store/coordination/types';
 import { request } from './utils';
 
 export const getCoordinationApps = () => {
-	return request('/showcase/project-applications/my_in_work/', {
+	return request('/showcase/project-applications/coordination/', {
 		method: 'GET',
 		headers: {
 			Accept: 'application/json',

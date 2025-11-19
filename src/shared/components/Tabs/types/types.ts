@@ -1,6 +1,8 @@
 export interface ITab {
 	label: string;
 	path: string;
+	count?: number;
+	description?: string;
 	disabled?: boolean;
 }
 

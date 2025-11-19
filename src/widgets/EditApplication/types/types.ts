@@ -27,3 +27,7 @@ export interface IApplicationFieldProps extends PropsWithChildren {
 	getCommentCount: (fieldName: string) => number;
 	onSelectField: (field: IField) => void;
 }
+
+export interface IEditApplicationProps {
+	status: 'my-app' | 'coordination';
+}

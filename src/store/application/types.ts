@@ -108,10 +108,12 @@ export interface IApplicationItem {
 	author_name: string;
 	company: string;
 	creation_date: string;
+	comments_count: number;
 	id: number;
 	needs_consultation: boolean;
 	status: { code: string; name: string };
 	title: string;
+	print_number?: string;
 }
 
 export interface IApplicationDetail extends IApplication {

@@ -80,19 +80,30 @@ export const ControlApprove: FC = () => {
 						{user.status === 'submitted' ? (
 							<div className={styles.buttons}>
 								<Button
-									text='Одобрить'
-									onClick={() => handleOpenApproveModal(user)}
-								/>
-								<Button
 									text='Отклонить'
 									onClick={() => handleOpenRejectModal(user)}
+									color='red'
+									withIcon={{
+										type: 'cancel',
+										color: 'white',
+										position: 'left',
+									}}
+								/>
+								<Button
+									text='Одобрить'
+									onClick={() => handleOpenApproveModal(user)}
+									color='green'
+									withIcon={{ type: 'check', color: 'white', position: 'left' }}
 								/>
 							</div>
 						) : (
-							<Button
-								text='Подробнее'
-								onClick={() => handleOpenDetailModal(user)}
-							/>
+							<div className={styles.buttons}>
+								<Button
+									text='Подробнее'
+									onClick={() => handleOpenDetailModal(user)}
+									withIcon={{ type: 'info', color: 'black', position: 'left' }}
+								/>
+							</div>
 						)}
 					</li>
 				))}

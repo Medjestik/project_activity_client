@@ -2,6 +2,7 @@ import type { FC, FormEvent, ChangeEvent } from 'react';
 import { useState, useEffect } from 'react';
 
 import { useDispatch, useSelector } from '../../../store/store';
+import { useToast } from '../../../shared/components/ToastProvider/ui/ToastProvider';
 
 import { Form } from '../../../shared/components/Form/ui/form';
 import {
@@ -18,6 +19,7 @@ import styles from '../styles/application-comments.module.scss';
 
 export const ApplicationComments: FC = () => {
 	const dispatch = useDispatch();
+	const { showToast } = useToast();
 
 	const [commentText, setCommentText] = useState<string>('');
 
@@ -42,8 +44,18 @@ export const ApplicationComments: FC = () => {
 				})
 			).unwrap();
 			setCommentText('');
+			showToast({
+				title: 'Комментарий добавлен!',
+				text: `К полю «${currentField.name}» добавлен новый комментарий.`,
+				type: 'success',
+			});
 		} catch (err) {
 			console.error('Ошибка при создании комментария:', err);
+			showToast({
+				title: 'Ошибка при добавлении комментария!',
+				text: 'Что-то пошло не так.',
+				type: 'error',
+			});
 		}
 	};
 

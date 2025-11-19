@@ -1,6 +1,8 @@
 import type { FC } from 'react';
 import type { ITabsProps } from '../types/types';
+
 import { NavLink } from 'react-router-dom';
+
 import styles from '../styles/tabs.module.scss';
 
 export const Tabs: FC<ITabsProps> = ({ tabs, activeTab, onTabChange }) => {
@@ -16,7 +18,9 @@ export const Tabs: FC<ITabsProps> = ({ tabs, activeTab, onTabChange }) => {
 					if (tab.disabled) {
 						return (
 							<div key={tab.path} className={styles.tab_disabled}>
-								{tab.label}
+								{`${
+									tab.count ? tab.label + ' (' + tab.count + ')' : tab.label
+								}`}
 							</div>
 						);
 					}
@@ -28,7 +32,9 @@ export const Tabs: FC<ITabsProps> = ({ tabs, activeTab, onTabChange }) => {
 								key={tab.path}
 								className={isActive ? styles.tab_active : styles.tab}
 								onClick={() => onTabChange(tab.path)}>
-								{tab.label}
+								{`${
+									tab.count ? tab.label + ' (' + tab.count + ')' : tab.label
+								}`}
 							</button>
 						);
 					}
@@ -41,7 +47,7 @@ export const Tabs: FC<ITabsProps> = ({ tabs, activeTab, onTabChange }) => {
 							className={({ isActive }) =>
 								isActive ? styles.tab_active : styles.tab
 							}>
-							{tab.label}
+							{`${tab.count ? tab.label + ' (' + tab.count + ')' : tab.label}`}
 						</NavLink>
 					);
 				})}

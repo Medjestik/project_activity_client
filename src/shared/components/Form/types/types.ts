@@ -16,6 +16,7 @@ export interface IFormFieldProps {
 	withInfo?: boolean;
 	withMarginBottom?: boolean;
 	onInfo?: () => void;
+	infoText?: string;
 	fieldError?: IFormFieldError;
 	children?: ReactNode;
 }

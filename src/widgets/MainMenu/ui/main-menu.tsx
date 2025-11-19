@@ -21,7 +21,7 @@ export const MainMenu: FC = () => {
 	};
 
 	const visibleLinks =
-		user?.role === 'admin'
+		user?.role === 'admin' || user?.role === 'cpds'
 			? links
 			: user?.role === 'mentor'
 			? links.slice(0, 3)
@@ -31,6 +31,7 @@ export const MainMenu: FC = () => {
 		<section className={styles.container}>
 			<div className={styles.header}>
 				<span className={styles.logo}>ПроектРУТ</span>
+				<span className={styles.logo__text}>Один портал для всех проектов</span>
 			</div>
 			<nav className={styles.nav}>
 				{visibleLinks.map((elem, i) => (

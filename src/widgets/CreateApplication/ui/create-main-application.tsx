@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../../store/store';
 import { useForm } from '../../../hooks/useForm';
+import { useToast } from '../../../shared/components/ToastProvider/ui/ToastProvider';
 
 import { Card } from '../../../shared/components/Card/ui/card';
 import { Form } from '../../../shared/components/Form/ui/form';
@@ -26,9 +27,11 @@ import {
 	validationSchema,
 	initialAppMainValues,
 	shouldBlockSubmit,
+	formFieldData,
 } from '../lib/helpers';
 import { createAppMainAction } from '../../../store/application/actions';
 import { getInstitutesAction } from '../../../store/catalog/actions';
+import { getErrorMessage } from '../../../shared/lib/getErrorMessage';
 import { projectLevels } from '../../../shared/lib/lib';
 import { EPAGESROUTES, EMAINROUTES } from '../../../shared/utils/routes';
 
@@ -37,6 +40,8 @@ import styles from '../styles/create-main-application.module.scss';
 export const CreateMainApplication: FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const { showToast } = useToast();
+
 	const { user } = useSelector((state) => state.user);
 	const { institutes, isLoadingCatalog } = useSelector(
 		(state) => state.catalog
@@ -77,8 +82,18 @@ export const CreateMainApplication: FC = () => {
 				navigate(`${EPAGESROUTES.MAIN}/${EMAINROUTES.MY_APPS}`, {
 					replace: true,
 				});
+				showToast({
+					title: 'Заявка успешно создана!',
+					text: `Заявка «${values.title}» создана.`,
+					type: 'success',
+				});
 			} catch (err) {
-				console.error('Ошибка при создании заявки:', err);
+				console.log(err);
+				showToast({
+					title: 'Произошла ошибка при создании заявки!',
+					text: getErrorMessage(err),
+					type: 'error',
+				});
 			}
 		}
 	};
@@ -117,38 +132,42 @@ export const CreateMainApplication: FC = () => {
 				'Укажите наименование проекта, сведения о заказчике и уровне проекта',
 			content: (
 				<>
-					<FormField title='Наименование проекта'>
+					<FormField
+						title={formFieldData.company.title}
+						withInfo
+						infoText={formFieldData.company.info}>
 						<FormInput
-							name='title'
-							value={values.title}
-							onChange={handleChange}
-							placeholder='Введите наименование проекта'
-						/>
-					</FormField>
-					<FormField title='Наименование организации-заказчика'>
-						<FormInput
-							name='company'
+							name={formFieldData.company.name}
 							value={values.company}
 							onChange={handleChange}
-							placeholder='Введите наименование организации-заказчика'
+							placeholder={formFieldData.company.placeholder}
 						/>
 					</FormField>
-					<FormField title='Контактные данные представителя заказчика'>
+					<FormField
+						title={formFieldData.company_contacts.title}
+						withInfo
+						infoText={formFieldData.company_contacts.info}>
 						<FormTextarea
-							name='company_contacts'
+							name={formFieldData.company_contacts.name}
 							value={values.company_contacts}
 							onChange={handleChange}
-							placeholder='Введите контактные данные'
+							placeholder={formFieldData.company_contacts.placeholder}
 						/>
 					</FormField>
-					<FormField title='Уровень проекта'>
+					<FormField
+						title={formFieldData.project_level.title}
+						withInfo
+						infoText={formFieldData.project_level.info}>
 						<Select
 							options={projectLevels}
 							currentOption={values.project_level}
 							onChooseOption={handleChangeLevel}
 						/>
 					</FormField>
-					<FormField title='Экспертам из какого института / академии обратить внимание'>
+					<FormField
+						title={formFieldData.target_institutes.title}
+						withInfo
+						infoText={formFieldData.target_institutes.info}>
 						<MultiSelect
 							options={institutes}
 							selectedOptions={values.target_institutes}
@@ -165,36 +184,48 @@ export const CreateMainApplication: FC = () => {
 			subtitle: 'Опишите задачу и препятствия, с которыми сталкиваетесь',
 			content: (
 				<>
-					<FormField title='Носитель проблемы'>
+					<FormField
+						title={formFieldData.problem_holder.title}
+						withInfo
+						infoText={formFieldData.problem_holder.info}>
 						<FormInput
-							name='problem_holder'
+							name={formFieldData.problem_holder.name}
 							value={values.problem_holder}
 							onChange={handleChange}
-							placeholder='Введите носителя проблемы'
+							placeholder={formFieldData.problem_holder.placeholder}
 						/>
 					</FormField>
-					<FormField title='Цель'>
+					<FormField
+						title={formFieldData.goal.title}
+						withInfo
+						infoText={formFieldData.goal.info}>
 						<FormTextarea
-							name='goal'
+							name={formFieldData.goal.name}
 							value={values.goal}
 							onChange={handleChange}
-							placeholder='Введите цель проекта'
+							placeholder={formFieldData.goal.placeholder}
 						/>
 					</FormField>
-					<FormField title='Барьер'>
+					<FormField
+						title={formFieldData.barrier.title}
+						withInfo
+						infoText={formFieldData.barrier.info}>
 						<FormTextarea
-							name='barrier'
+							name={formFieldData.barrier.name}
 							value={values.barrier}
 							onChange={handleChange}
-							placeholder='Что мешает решить проблему сейчас?'
+							placeholder={formFieldData.barrier.placeholder}
 						/>
 					</FormField>
-					<FormField title='Существующие решения'>
+					<FormField
+						title={formFieldData.existing_solutions.title}
+						withInfo
+						infoText={formFieldData.existing_solutions.info}>
 						<FormTextarea
-							name='existing_solutions'
+							name={formFieldData.existing_solutions.name}
 							value={values.existing_solutions}
 							onChange={handleChange}
-							placeholder='Введите существующие решения'
+							placeholder={formFieldData.existing_solutions.placeholder}
 						/>
 					</FormField>
 				</>
@@ -205,36 +236,59 @@ export const CreateMainApplication: FC = () => {
 			subtitle: 'Опишите окружение проекта',
 			content: (
 				<>
-					<FormField title='Контекст проекта'>
+					<FormField
+						title={formFieldData.context.title}
+						withInfo
+						infoText={formFieldData.context.info}>
 						<FormTextarea
-							name='context'
+							name={formFieldData.context.name}
 							value={values.context}
 							onChange={handleChange}
-							placeholder='Введите контекст проекта'
+							placeholder={formFieldData.context.placeholder}
 						/>
 					</FormField>
-					<FormField title='Другие заинтересованные стороны'>
+					<FormField
+						title={formFieldData.title.title}
+						withInfo
+						infoText={formFieldData.title.info}>
+						<FormInput
+							name={formFieldData.title.name}
+							value={values.title}
+							onChange={handleChange}
+							placeholder={formFieldData.title.placeholder}
+						/>
+					</FormField>
+					<FormField
+						title={formFieldData.stakeholders.title}
+						withInfo
+						infoText={formFieldData.stakeholders.info}>
 						<FormTextarea
-							name='stakeholders'
+							name={formFieldData.stakeholders.name}
 							value={values.stakeholders}
 							onChange={handleChange}
-							placeholder='Введите другие заинтересованные стороны'
+							placeholder={formFieldData.stakeholders.placeholder}
 						/>
 					</FormField>
-					<FormField title='Рекомендуемые инструменты / методы'>
+					<FormField
+						title={formFieldData.recommended_tools.title}
+						withInfo
+						infoText={formFieldData.recommended_tools.info}>
 						<FormTextarea
-							name='recommended_tools'
+							name={formFieldData.recommended_tools.name}
 							value={values.recommended_tools}
 							onChange={handleChange}
-							placeholder='Введите рекомендуемые инструменты / методы'
+							placeholder={formFieldData.recommended_tools.placeholder}
 						/>
 					</FormField>
-					<FormField title='Эксперты'>
+					<FormField
+						title={formFieldData.experts.title}
+						withInfo
+						infoText={formFieldData.experts.info}>
 						<FormTextarea
-							name='experts'
+							name={formFieldData.experts.name}
 							value={values.experts}
 							onChange={handleChange}
-							placeholder='Введите экспертов'
+							placeholder={formFieldData.experts.placeholder}
 						/>
 					</FormField>
 				</>
@@ -245,18 +299,21 @@ export const CreateMainApplication: FC = () => {
 			subtitle: 'Опишите дополнительные сведения',
 			content: (
 				<>
-					<FormField title='Дополнительные материалы'>
+					<FormField
+						title={formFieldData.additional_materials.title}
+						withInfo
+						infoText={formFieldData.additional_materials.info}>
 						<FormTextarea
-							name='additional_materials'
+							name={formFieldData.additional_materials.name}
 							value={values.additional_materials}
 							onChange={handleChange}
-							placeholder='Введите дополнительные материалы'
+							placeholder={formFieldData.additional_materials.placeholder}
 						/>
 					</FormField>
-					<FormField title='Консультация'>
+					<FormField title={formFieldData.needs_consultation.title}>
 						<Checkbox
 							checked={values.needs_consultation}
-							label='Мне нужна консультация эксперта'
+							label={formFieldData.needs_consultation.placeholder}
 							onChange={handleChangeConsultation}
 						/>
 					</FormField>
@@ -266,7 +323,6 @@ export const CreateMainApplication: FC = () => {
 	];
 
 	const summaryFields = [
-		{ title: 'Наименование проекта', value: values.title },
 		{ title: 'Организация-заказчик', value: values.company },
 		{ title: 'Контактные данные заказчика', value: values.company_contacts },
 		{
@@ -284,7 +340,8 @@ export const CreateMainApplication: FC = () => {
 		{ title: 'Цель', value: values.goal },
 		{ title: 'Барьер', value: values.barrier },
 		{ title: 'Существующие решения', value: values.existing_solutions },
-		{ title: 'Контекст', value: values.context },
+		{ title: 'Контекст проекта', value: values.context },
+		{ title: 'Наименование проекта', value: values.title },
 		{ title: 'Другие заинтересованные стороны', value: values.stakeholders },
 		{
 			title: 'Рекомендуемые инструменты / методы',

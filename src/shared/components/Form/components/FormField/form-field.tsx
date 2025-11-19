@@ -9,6 +9,7 @@ export const FormField: FC<IFormFieldProps> = ({
 	withInfo = false,
 	withMarginBottom = false,
 	onInfo,
+	infoText,
 	children,
 }) => {
 	return (
@@ -18,7 +19,14 @@ export const FormField: FC<IFormFieldProps> = ({
 			}`}>
 			<div className={styles.header}>
 				<h4 className={styles.title}>{title}</h4>
-				{withInfo && <div className={styles.icon} onClick={onInfo}></div>}
+				{withInfo && (
+					<div className={styles.icon_wrapper}>
+						<div className={styles.icon} onClick={onInfo}></div>
+						<div className={styles.info}>
+							<p className={styles.info__text}>{infoText}</p>
+						</div>
+					</div>
+				)}
 			</div>
 			{children}
 			{fieldError && (

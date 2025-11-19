@@ -61,7 +61,6 @@ export const ApproveUserForm: FC = () => {
 	return (
 		<div className={styles.form}>
 			<UserData user={currentApproveUser} />
-
 			<Form
 				name='form-control-user-approve'
 				onSubmit={handleSubmit}

@@ -34,7 +34,7 @@ export const CoordinationAppDetail: FC = () => {
 			}}
 			sectionDescription='Обновите данные или оставьте комментарии для поля'
 			withHeaderMargin>
-			<EditApplication />
+			<EditApplication status='coordination' />
 		</Section>
 	);
 };

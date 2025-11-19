@@ -11,6 +11,7 @@ export const Select = <T,>({
 	onChooseOption,
 	valueKey = 'id' as keyof T,
 	labelKey = 'name' as keyof T,
+	width = 'full',
 	placeholder = 'Выберите значение...',
 }: ISelectProps<T>) => {
 	const [isOpenSelectOptions, setIsOpenSelectOptions] = useState(false);
@@ -42,8 +43,8 @@ export const Select = <T,>({
 		<div
 			ref={selectRef}
 			className={`${styles.select} ${
-				isOpenSelectOptions ? styles.select_open : ''
-			}`}
+				width === 'default' ? styles.select_width_default : ''
+			} ${isOpenSelectOptions ? styles.select_open : ''}`}
 			onClick={openSelectOptions}>
 			<div className={styles.main}>
 				<p

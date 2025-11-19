@@ -20,6 +20,7 @@ import { Control } from '../pages/Control/ui/control';
 
 import { EPAGESROUTES, EMAINROUTES } from '../shared/utils/routes';
 import { checkUserAuth } from '../store/user/actions';
+import { ToastProvider } from '../shared/components/ToastProvider/ui/ToastProvider';
 
 import { MainLayout } from '../shared/components/Layout/MainLayout/ui/main-layout';
 
@@ -35,38 +36,41 @@ export const App = () => {
 	}, [dispatch]);
 
 	return (
-		<div className={styles.page}>
-			<Routes location={background || location}>
-				<Route
-					path={EPAGESROUTES.MAIN}
-					element={<OnlyAuth component={<MainLayout />} />}>
-					<Route path={EMAINROUTES.HOME} element={<Home />} />
-					<Route path={EMAINROUTES.NEW_APP} element={<NewApp />} />
-					<Route path={EMAINROUTES.MY_APPS} element={<MyApp />} />
+		<ToastProvider>
+			<div className={styles.page}>
+				<Routes location={background || location}>
 					<Route
-						path={`${EMAINROUTES.COORDINATION}/*`}
-						element={<Coordination />}
-					/>
-					<Route path={EMAINROUTES.STATS} element={<Stats />} />
-					<Route path={`${EMAINROUTES.CONTROL}/*`} element={<Control />} />
-					<Route path='*' element={<NotFound />} />
-				</Route>
+						path={EPAGESROUTES.MAIN}
+						element={<OnlyAuth component={<MainLayout />} />}>
+						<Route path={EMAINROUTES.HOME} element={<Home />} />
+						<Route path={EMAINROUTES.NEW_APP} element={<NewApp />} />
+						<Route path={`${EMAINROUTES.MY_APPS}/*`} element={<MyApp />} />
+						<Route
+							path={`${EMAINROUTES.COORDINATION}/*`}
+							element={<Coordination />}
+						/>
+						<Route path={EMAINROUTES.STATS} element={<Stats />} />
+						<Route path={`${EMAINROUTES.CONTROL}/*`} element={<Control />} />
+						<Route path='*' element={<NotFound />} />
+					</Route>
 
-				<Route
-					path={EPAGESROUTES.LOGIN}
-					element={<OnlyUnAuth component={<Login />} />}
-				/>
-				<Route
-					path={EPAGESROUTES.REGISTRATION}
-					element={<OnlyUnAuth component={<Registration />} />}
-				/>
-				<Route
-					path={EPAGESROUTES.FORGOT_PASSWORD}
-					element={<OnlyUnAuth component={<ForgotPassword />} />}
-				/>
-				<Route path='*' element={<NotFound />} />
-			</Routes>
-			<div id='modal-root'></div>
-		</div>
+					<Route
+						path={EPAGESROUTES.LOGIN}
+						element={<OnlyUnAuth component={<Login />} />}
+					/>
+					<Route
+						path={EPAGESROUTES.REGISTRATION}
+						element={<OnlyUnAuth component={<Registration />} />}
+					/>
+					<Route
+						path={EPAGESROUTES.FORGOT_PASSWORD}
+						element={<OnlyUnAuth component={<ForgotPassword />} />}
+					/>
+					<Route path='*' element={<NotFound />} />
+				</Routes>
+				<div id='modal-root'></div>
+				<div id='toast-root'></div>
+			</div>
+		</ToastProvider>
 	);
 };

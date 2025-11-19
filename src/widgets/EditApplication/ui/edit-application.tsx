@@ -1,5 +1,5 @@
 import type { FC, FormEvent } from 'react';
-import type { IEditAppForm } from '../types/types';
+import type { IEditAppForm, IEditApplicationProps } from '../types/types';
 import type { IInstitute } from '../../../store/catalog/types';
 import type { IProjectLevel } from '../../../shared/lib/lib';
 import type {
@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../../store/store';
 import { useForm } from '../../../hooks/useForm';
+import { useToast } from '../../../shared/components/ToastProvider/ui/ToastProvider';
 
 import { Button } from '../../../shared/components/Button/ui/button';
 import { Tabs } from '../../../shared/components/Tabs/ui/tabs';
@@ -41,15 +42,17 @@ import { getInstitutesAction } from '../../../store/catalog/actions';
 import { setCurrentField } from '../../../store/coordination/reducer';
 import { projectLevels } from '../../../shared/lib/lib';
 import { EPAGESROUTES, EMAINROUTES } from '../../../shared/utils/routes';
+import { getErrorMessage } from '../../../shared/lib/getErrorMessage';
 
 import styles from '../styles/edit-application.module.scss';
 
-export const EditApplication: FC = () => {
+export const EditApplication: FC<IEditApplicationProps> = ({ status }) => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const { showToast } = useToast();
 
 	const { user } = useSelector((state) => state.user);
-	const { applicationDetail, currentField } = useSelector(
+	const { applicationDetail, currentField, isLoadingAction } = useSelector(
 		(state) => state.coordination
 	);
 	const { institutes, isLoadingCatalog } = useSelector(
@@ -57,7 +60,7 @@ export const EditApplication: FC = () => {
 	);
 
 	const [activeTab, setActiveTab] = useState('/description');
-	const [isBlockSubmit, setIsBlockSubmit] = useState<boolean>(true);
+	const [isBlockSubmit, setIsBlockSubmit] = useState<boolean>(false);
 	const { values, handleChange, handleSelectChange, errors, setValues } =
 		useForm<IEditAppForm>(initialAppValues, validationSchema);
 
@@ -85,9 +88,17 @@ export const EditApplication: FC = () => {
 				await dispatch(
 					editAppAction({ id: applicationDetail.id, data: appData })
 				).unwrap();
-				console.log('Успешно');
+				showToast({
+					title: 'Заявка успешно сохранена!',
+					text: `Заявка «${applicationDetail.title}» сохранена.`,
+					type: 'success',
+				});
 			} catch (err) {
-				console.error('Ошибка при создании заявки:', err);
+				showToast({
+					title: 'Произошла ошибка при сохранении заявки!',
+					text: getErrorMessage(err),
+					type: 'error',
+				});
 			}
 		}
 	};
@@ -98,11 +109,22 @@ export const EditApplication: FC = () => {
 				await dispatch(
 					approveAppAction({ applicationId: applicationDetail.id })
 				).unwrap();
-				navigate(`${EPAGESROUTES.MAIN}/${EMAINROUTES.COORDINATION}`, {
-					replace: true,
+				navigate(
+					`${EPAGESROUTES.MAIN}/${
+						status === 'my-app' ? EMAINROUTES.MY_APPS : EMAINROUTES.COORDINATION
+					}`
+				);
+				showToast({
+					title: 'Заявка успешно согласована!',
+					text: `Заявка «${applicationDetail.title}» согласована.`,
+					type: 'success',
 				});
 			} catch (err) {
-				console.error('Ошибка при согласовании заявки:', err);
+				showToast({
+					title: 'Произошла ошибка при согласовании заявки!',
+					text: getErrorMessage(err),
+					type: 'error',
+				});
 			}
 		}
 	};
@@ -116,8 +138,17 @@ export const EditApplication: FC = () => {
 				navigate(`${EPAGESROUTES.MAIN}/${EMAINROUTES.COORDINATION}`, {
 					replace: true,
 				});
+				showToast({
+					title: 'Заявка отправлена на доработку!',
+					text: `Заявка «${applicationDetail.title}» отправлена на доработку.`,
+					type: 'success',
+				});
 			} catch (err) {
-				console.error('Ошибка при доработке заявки:', err);
+				showToast({
+					title: 'Произошла ошибка при отправке заявки на доработку!',
+					text: getErrorMessage(err),
+					type: 'error',
+				});
 			}
 		}
 	};
@@ -134,8 +165,17 @@ export const EditApplication: FC = () => {
 				navigate(`${EPAGESROUTES.MAIN}/${EMAINROUTES.COORDINATION}`, {
 					replace: true,
 				});
+				showToast({
+					title: 'Заявка успешно отклонена!',
+					text: `Заявка «${applicationDetail.title}» отклонена.`,
+					type: 'success',
+				});
 			} catch (err) {
-				console.error('Ошибка при отклонении заявки:', err);
+				showToast({
+					title: 'Произошла ошибка при отклонении заявки!',
+					text: getErrorMessage(err),
+					type: 'error',
+				});
 			}
 		}
 	};
@@ -154,10 +194,6 @@ export const EditApplication: FC = () => {
 
 	const hasAction = (actionName: string) =>
 		applicationDetail?.available_actions.some((a) => a.action === actionName);
-
-	useEffect(() => {
-		setIsBlockSubmit(shouldBlockSubmit(values, errors));
-	}, [values, errors]);
 
 	useEffect(() => {
 		dispatch(setCurrentField(null));
@@ -189,6 +225,10 @@ export const EditApplication: FC = () => {
 			});
 		}
 	}, [applicationDetail, setValues]);
+
+	useEffect(() => {
+		setIsBlockSubmit(shouldBlockSubmit(values, errors));
+	}, [values, errors]);
 
 	if (isLoadingCatalog) {
 		return <Preloader />;
@@ -427,14 +467,16 @@ export const EditApplication: FC = () => {
 										type='submit'
 										color='green'
 										withIcon={{ type: 'check', color: 'white' }}
+										isBlock={isLoadingAction}
 									/>
 								)}
 								{hasAction('approve') && (
 									<Button
-										text='Согласовать'
+										text={status === 'my-app' ? 'Отправить' : 'Согласовать'}
 										color='blue'
 										withIcon={{ type: 'send', color: 'white' }}
 										onClick={handleApproveApp}
+										isBlock={isLoadingAction}
 									/>
 								)}
 								{hasAction('request_changes') && (
@@ -442,6 +484,7 @@ export const EditApplication: FC = () => {
 										text='Вернуть'
 										withIcon={{ type: 'return', color: 'black' }}
 										onClick={handleReworkApp}
+										isBlock={isLoadingAction}
 									/>
 								)}
 								{hasAction('reject') && (
@@ -450,6 +493,7 @@ export const EditApplication: FC = () => {
 										color='red'
 										withIcon={{ type: 'cancel', color: 'white' }}
 										onClick={() => handleRejectApp('Test')}
+										isBlock={isLoadingAction}
 									/>
 								)}
 							</div>

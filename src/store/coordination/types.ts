@@ -12,6 +12,7 @@ export interface ICoordinationStore {
 	isLoadingApps: boolean;
 	isLoadingDetail: boolean;
 	isLoadingComment: boolean;
+	isLoadingAction: boolean;
 	error: string | null;
 }
 

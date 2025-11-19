@@ -15,7 +15,9 @@ export const Control: FC = () => {
 	return (
 		<Section
 			sectionWidth='full'
-			sectionTitle={{ text: 'Управление пользователями и заявками' }}>
+			sectionTitle={{ text: 'Управление пользователями и заявками' }}
+			sectionDescription='Проверьте данные и подтвердите или отклоните доступ'
+			withHeaderMargin>
 			<Tabs tabs={tabs} />
 
 			<Routes>

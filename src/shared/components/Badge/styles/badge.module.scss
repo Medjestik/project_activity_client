@@ -14,6 +14,8 @@
   border-radius: var(--border-radius);
   flex-shrink: 0;
 	outline: none;
+	user-select: none;
+	pointer-events: none;
   cursor: default;
 	transition: all .3s ease-in-out;
 	&_active {
